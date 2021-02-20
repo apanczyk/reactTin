@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { getVisitorsApiCall } from '../../apiCalls/visitorApiCalls'
+import { getVisitorsApiCall } from '../../../apiCalls/visitorApiCalls'
 
 
 function VisitorList() {

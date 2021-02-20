@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { getVisitorByIdApiCall } from '../../apiCalls/visitorApiCalls'
+import { getVisitorByIdApiCall } from '../../../apiCalls/visitorApiCalls'
 
 function VisitorDetails() {
     let { visitorId } = useParams()
@@ -34,8 +34,8 @@ function VisitorDetails() {
                     )}
                 </tbody>
             </table>
-            <div className="section-buttons">
-                <Link to="/visitors" className="button-back">Powrót</Link>
+            <div className="form-buttons">
+                <Link to="/visitors" className="form-button-submit">Powrót</Link>
             </div>
         </main>
     )
