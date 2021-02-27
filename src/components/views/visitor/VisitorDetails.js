@@ -1,43 +1,77 @@
 import React from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { getVisitorByIdApiCall } from '../../../apiCalls/visitorApiCalls'
+import VisitorDetailsData from './VisitorDetailsData'
 
-function VisitorDetails() {
-    let { visitorId } = useParams()
-    visitorId = parseInt(visitorId)
-    const visitor = getVisitorByIdApiCall(visitorId)
+class VisitorDetails extends React.Component {
 
-    return (
-        <main>
-            <h2>Szczegóły gościa</h2>
-            <p>Imię: {visitor.firstName}</p>
-            <p>Nazwisko: {visitor.lastName} </p>
-            <h2>Szczegóły recenzji</h2>
-            <table className="table-list">
-                <thead>
-                    <tr>
-                        <th>Danie</th>
-                        <th>Ocena</th>
-                        <th>Data</th>
-                        <th>Opis</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {visitor.reviews.map(
-                        review =>
-                            <tr key={review._id}>
-                                <td>{review.meal.name}</td>
-                                <td>{review.rate}</td>
-                                <td>{review.date}</td>
-                                <td>{review.message}</td>
-                            </tr>
-                    )}
-                </tbody>
-            </table>
-            <div className="form-buttons">
-                <Link to="/visitors" className="form-button-submit">Powrót</Link>
-            </div>
-        </main>
-    )
+    constructor(props) {
+        super(props)
+        let { visitorId } = props.match.params
+        this.state = {
+            visitorId: visitorId,
+            visitor: null,
+            error: null,
+            isLoaded: false,
+            message: null
+        }
+    }
+
+
+    fetchVisitorDetails = () => {
+        getVisitorByIdApiCall(this.state.visitorId)
+            .then(res => res.json())
+            .then(
+                (data) => {
+                    if (data.message) {
+                        this.setState({
+                            visitor: null,
+                            message: data.message
+                        })
+                    } else {
+                        this.setState({
+                            visitor: data,
+                            message: null
+                        })
+                    }
+                    this.setState({
+                        isLoaded: true
+                    })
+                },
+                (error) => {
+                    this.setState({
+                        isLoaded: true,
+                        error
+                    })
+                })
+    }
+
+    componentDidMount() {
+        this.fetchVisitorDetails()
+    }
+
+    render() {
+        const { visitor, error, isLoaded, message } = this.state
+        let content;
+
+        if (error) {
+            content = <p>Błąd: {error.message}</p>
+        } else if (!isLoaded) {
+            content = <p>Ładowanie danych gościa</p>
+        } else if (message) {
+            content = <p>{message}</p>
+        } else {
+            content = <VisitorDetailsData visitorData={visitor} />
+        }
+        return (
+            <main>
+                <h2>Szczegóły gościa</h2>
+                {content}
+                <div className="form-buttons">
+                    <Link to="/visitors" className="form-button-submit">Powrót</Link>
+                </div>
+            </main>
+        )
+    }
 }
 export default VisitorDetails

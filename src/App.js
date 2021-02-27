@@ -20,6 +20,8 @@ import VisitorForm from './components/views/visitor/VisitorForm'
 import MealForm from './components/views/meal/MealForm'
 import ReviewForm from './components/views/review/ReviewForm'
 
+import VisitorDelete from './components/views/visitor/VisitorDelete'
+
 function App() {
   return (
     <Router>
@@ -42,6 +44,10 @@ function App() {
           <Route exact path="/meals/edit/:mealId" component={MealForm} />
           <Route exact path="/reviews/add" component={ReviewForm} />
           <Route exact path="/reviews/edit/:reviewId" component={ReviewForm} />
+
+          <Route exact path="/visitors/delete/:visitorId" component={VisitorDelete} />
+          {/* <Route exact path="/meals/delete/:visitorId" component={MealDetails} />
+          <Route exact path="/reviews/delete/:visitorId" component={ReviewDetails} /> */}
         </Switch>
         <Footer />
       </div>

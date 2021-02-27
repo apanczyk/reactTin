@@ -5,7 +5,7 @@ function Header() {
         <header>
             <h1>Michelin "Wirtualny krytyk"</h1>
             <a href="/">
-                <img src="/img/logo.png" alt="Michelin" class="header-img" />
+                <img src="/img/logo.png" alt="Michelin" className="header-img" />
             </a>
         </header>
     )
